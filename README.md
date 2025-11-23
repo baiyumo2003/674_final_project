@@ -1,7 +1,7 @@
 
 # Enron Email Analysis – Final Project
 
-This project analyzes the Enron email corpus as part of a course assignment.  
+This project analyzes the Enron email corpus as part of a course project.  
 ⚠️ **The `maildir/` dataset is NOT included in this repository** because it is large and must be downloaded separately.  
 Instructions for obtaining and extracting the dataset are provided below.
 
@@ -11,7 +11,7 @@ Instructions for obtaining and extracting the dataset are provided below.
 
 ```
 
-674_final/
+674_final_project/
 ├── data/
 │   └── email_address/        # extracted email lists
 │
@@ -28,10 +28,19 @@ Instructions for obtaining and extracting the dataset are provided below.
 ```
 
 ---
+## Auto-Download Script
+
+You may use `get_enron.sh` to automate dataset download & extraction
+```bash
+cd 674_final_project
+. get_enron.sh 
+````
+
+---
 
 ## 📥 Download the Enron Email Dataset
 
-The dataset can be downloaded from Carnegie Mellon University:
+Also, the dataset can be downloaded from Carnegie Mellon University:
 
 🔗 **https://www.cs.cmu.edu/~enron/**
 
@@ -43,70 +52,23 @@ https://www.cs.cmu.edu/~enron/#:~:text=May%207%2C%202015%20Version%20of%20datase
 
 ````
 
----
-
-## 📦 Extract the Dataset
+### 📦 Extract the Dataset
 
 Place the file in your project root and run:
 
 ```bash
 tar -xzvf enron_mail_20150507.tar.gz
-mv maildir 674_final/maildir
+mv maildir 674_final_project/maildir
 ````
 
 This will create the required directory:
 
 ```
-674_final/maildir/
+674_final_project/maildir/
 ```
 
 ---
 
-## 🚀 How to Run the Project
-
-### 1️⃣ Extract unique email addresses
-
-```bash
-python src/extract.py
-```
-
-Outputs:
-
-```
-data/email_address/all_emails.txt
-data/email_address/enron_emails.txt
-```
-
----
-
-### 2️⃣ Generate sender/receiver statistics
-
-```bash
-python src/email_stats.py
-```
-
-Outputs:
-
-```
-results/figure/top_senders.png
-results/figure/top_receivers.png
-```
-
----
-
-### 3️⃣ Generate person-to-person interaction matrix
-
-```bash
-python src/email_matrix.py
-```
-
-Outputs:
-
-```
-results/figure/email_matrix.png
-```
-
----
 
 ## 📝 Why `maildir/` Is Excluded from Git
 
@@ -117,11 +79,5 @@ results/figure/email_matrix.png
 
 ---
 
-## Auto-Download Script
 
-You may use `get_enron.sh` to automate dataset download & extraction
-
-
-
----
 
