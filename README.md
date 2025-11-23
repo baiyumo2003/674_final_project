@@ -28,7 +28,8 @@ Instructions for obtaining and extracting the dataset are provided below.
 ```
 
 ---
-## Auto-Download Script
+## Download Dataset
+### 📥Option 1:Auto-Download Script
 
 You may use `get_enron.sh` to automate dataset download & extraction
 ```bash
@@ -38,7 +39,7 @@ cd 674_final_project
 
 ---
 
-## 📥 Download the Enron Email Dataset
+### 📥 Option 2:Download the Enron Email Dataset manually 
 
 Also, the dataset can be downloaded from Carnegie Mellon University:
 
@@ -52,20 +53,13 @@ https://www.cs.cmu.edu/~enron/#:~:text=May%207%2C%202015%20Version%20of%20datase
 
 ````
 
-### 📦 Extract the Dataset
+#### 📦 Extract the Dataset
 
 Place the file in your project root and run:
 
 ```bash
 tar -xzvf enron_mail_20150507.tar.gz
-mv maildir 674_final_project/maildir
 ````
-
-This will create the required directory:
-
-```
-674_final_project/maildir/
-```
 
 ---
 
