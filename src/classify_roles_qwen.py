@@ -17,7 +17,7 @@ os.makedirs(RESULT_DIR, exist_ok=True)
 # Parameters
 # ------------------------------------------------------
 MODEL_NAME = "Qwen/Qwen2.5-7B-Instruct"
-BATCH_SIZE = 512   # You have 4 A6000s — feel free to increase to 96 or 128
+BATCH_SIZE = 512   
 MAX_NEW_TOKENS = 128
 
 
@@ -49,11 +49,15 @@ def make_prompt(row):
 You are an expert in corporate social network analysis.
 
 Classify the employee into EXACTLY one role:
-- Executive/Leader
-- Coordinator
-- Bridge/Broker
-- Community Hub
-- Peripheral Node
+- Vice President
+- Director
+- Trader
+- Manager
+- Analyst Risk Management
+- Manager
+- Government Relation Executive
+- CEO 
+- General Counsel
 
 Metrics:
 Email: {row['email']}

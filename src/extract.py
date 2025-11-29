@@ -28,10 +28,8 @@ for root, _, files in os.walk(MAILDIR):
     for f in files:
         all_emails.update(extract_emails_from_file(os.path.join(root, f)))
 
-# Only internal Enron addresses
 enron_emails = {e.lower() for e in all_emails if e.lower().endswith("@enron.com")}
 
-# Save results
 with open(os.path.join(OUTPUT, "all_emails.txt"), "w") as f:
     for e in sorted(all_emails):
         f.write(e + "\n")
