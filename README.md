@@ -20,15 +20,15 @@ yourself following the instructions below.
 674_final_project/
 ├── data/
 │   ├── email_address/         # Internal email lists
-│   └── matrix/                # Generated adjacency matrices
+│   └── matrix/                # Generated adjacency matrices (NOT in Git)
 │   
 │
 ├── maildir/                   # Raw Enron email dataset (NOT in Git)
 │
 ├── results/
 │   ├── figures/               # All generated plots
-│   ├── final_dataset/         # Merged final node-level dataset for LLM
-│   └── matrix_analysis/       # Centralities & basic stats of the communication network
+│   ├── final_dataset/         # Merged final node-level dataset for LLM (NOT in Git)
+│   └── matrix_analysis/       # Centralities & basic stats of the communication network (NOT in Git)
 │
 ├── src/
 │   ├── extract.py
