@@ -1,100 +1,59 @@
 import os
-import numpy as np
 import pandas as pd
-import igraph as ig
 
 # ------------------------------------------------------
 # Paths
 # ------------------------------------------------------
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-EMAIL_LIST_FILE = os.path.join(BASE_DIR, "data", "email_address", "enron_emails.txt")
-NETWORK_MATRIX_FILE = os.path.join(BASE_DIR, "data","matrix", "network_email_communication.npy")
+ANALYSIS_DIR = os.path.join(BASE_DIR, "results", "matrix_analysis")
+OUT_DIR      = os.path.join(BASE_DIR, "results", "final_dataset")
+os.makedirs(OUT_DIR, exist_ok=True)
 
-RESULT_DIR = os.path.join(BASE_DIR, "data", "LLM")
-os.makedirs(RESULT_DIR, exist_ok=True)
+# Input files produced by analyze_matrix.py
+BASIC_STATS  = os.path.join(ANALYSIS_DIR, "basic_stats.csv")
+CENTRALITY   = os.path.join(ANALYSIS_DIR, "centrality.csv")
+COMMUNITIES  = os.path.join(ANALYSIS_DIR, "communities.csv")
 
-
-# ------------------------------------------------------
-# Load Data
-# ------------------------------------------------------
-def load_email_list(path):
-    with open(path, "r") as f:
-        return [line.strip().lower() for line in f.readlines()]
-
-
-def load_network_matrix(path):
-    return np.load(path)
+OUTPUT_FILE  = os.path.join(OUT_DIR, "enron_node_dataset.csv")
 
 
 # ------------------------------------------------------
-# Build igraph from adjacency matrix
+# Load helper
 # ------------------------------------------------------
-def build_graph(matrix, labels):
-    g = ig.Graph.Weighted_Adjacency(
-        matrix.tolist(),
-        mode="undirected",
-        loops=False
-    )
-    g.vs["name"] = labels
-    return g
-
-
-# ------------------------------------------------------
-# Compute Node Metrics
-# ------------------------------------------------------
-def compute_metrics(g, users):
-    print("Computing degree...")
-    degree = g.degree()
-
-    print("Computing betweenness...")
-    betweenness = g.betweenness()
-
-    print("Computing closeness...")
-    closeness = g.closeness()
-
-    print("Computing pagerank...")
-    pagerank = g.pagerank()
-
-    print("Computing community membership...")
-    community = g.community_multilevel(weights=g.es["weight"]).membership
-
-    df = pd.DataFrame({
-        "email": users,
-        "degree": degree,
-        "betweenness": betweenness,
-        "closeness": closeness,
-        "pagerank": pagerank,
-        "community": community
-    })
-
-    return df
+def safe_read(path, name):
+    if os.path.exists(path):
+        print(f"Loading {name}: {path}")
+        return pd.read_csv(path)
+    else:
+        print(f"[Warning] Missing file: {path}")
+        return None
 
 
 # ------------------------------------------------------
-# Save dataset
+# Main merge function
 # ------------------------------------------------------
-def save_dataset(df):
-    outpath = os.path.join(RESULT_DIR, "node_metrics.csv")
-    df.to_csv(outpath, index=False)
-    print(f"\nSaved dataset to: {outpath}")
+def build_final_dataset():
+    df_basic = safe_read(BASIC_STATS, "basic_stats")
+    df_cent  = safe_read(CENTRALITY, "centrality")
+    df_comm  = safe_read(COMMUNITIES, "communities")
+
+    print("\nMerging datasets...")
+    df_final = df_basic.copy()
+
+    if df_cent is not None:
+        df_final = df_final.merge(df_cent, on="email", how="left")
+
+    if df_comm is not None:
+        df_final = df_final.merge(df_comm, on="email", how="left")
+
+    df_final.to_csv(OUTPUT_FILE, index=False)
+    print(f"\nFinal dataset saved to: {OUTPUT_FILE}")
 
 
 # ------------------------------------------------------
-# Main
+# Entry point
 # ------------------------------------------------------
 if __name__ == "__main__":
-    print("Loading emails and matrix...")
-
-    users = load_email_list(EMAIL_LIST_FILE)
-    matrix = load_network_matrix(NETWORK_MATRIX_FILE)
-
-    print("Building graph...")
-    g = build_graph(matrix, users)
-
-    print("Computing metrics...")
-    df = compute_metrics(g, users)
-
-    save_dataset(df)
-
+    build_final_dataset()
     print("\nDataset build complete.")

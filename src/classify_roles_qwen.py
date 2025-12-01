@@ -8,7 +8,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 # Paths
 # ------------------------------------------------------
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DATASET_FILE = os.path.join(BASE_DIR, "data", "LLM", "node_metrics.csv")
+DATASET_FILE = os.path.join(BASE_DIR, "results", "final_dataset", "enron_node_dataset.csv")
 RESULT_DIR = os.path.join(BASE_DIR, "results", "LLM")
 
 os.makedirs(RESULT_DIR, exist_ok=True)
@@ -46,30 +46,37 @@ def load_qwen_model():
 # ------------------------------------------------------
 def make_prompt(row):
     return f"""
-You are an expert in corporate social network analysis.
+You are an expert in organizational network analysis.
 
-Classify the employee into EXACTLY one role:
-- Vice President
-- Director
-- Trader
-- Manager
-- Analyst Risk Management
-- Manager
-- Government Relation Executive
-- CEO 
-- General Counsel
+Classify this employee into EXACTLY one structural role based on network metrics.
+Possible roles:
+- Executive/Leader
+- Coordinator
+- Bridge/Broker
+- Community Hub
+- Peripheral Node
 
-Metrics:
+Use ONLY the following statistical network measures:
+
 Email: {row['email']}
-Degree: {row['degree']}
-Betweenness: {row['betweenness']}
-Closeness: {row['closeness']}
+Degree Centrality: {row['degree']}
+Betweenness Centrality: {row['betweenness']}
+Closeness Centrality: {row['closeness']}
 PageRank: {row['pagerank']}
-Community: {row['community']}
+Eigenvector Centrality: {row['eigenvector']}
+Community Assignment: {row['community']}
 
-Respond in EXACT format:
-<role>: <1-sentence explanation>
+Guidelines:
+- High degree + high PageRank + high eigenvector → Executive/Leader
+- High betweenness → Bridge/Broker
+- Medium degree + central inside their own community → Coordinator
+- High degree inside a community but not globally central → Community Hub
+- Low degree + low centrality → Peripheral Node
+
+Respond in EXACTLY this format:
+<role>: <one-sentence explanation>
 """
+
 
 
 # ------------------------------------------------------
