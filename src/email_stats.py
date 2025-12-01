@@ -5,7 +5,7 @@ from collections import defaultdict
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MAILDIR = os.path.join(BASE_DIR, "maildir")
-FIGDIR = os.path.join(BASE_DIR, "results", "figure")
+FIGDIR = os.path.join(BASE_DIR, "results", "figures")
 
 os.makedirs(FIGDIR, exist_ok=True)
 

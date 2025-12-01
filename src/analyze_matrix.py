@@ -43,7 +43,6 @@ def analyze_matrices():
     # -----------------------------------
     G = nx.from_numpy_array(W)
     G.remove_edges_from([(u, v) for u, v, w in G.edges(data="weight") if w < 3])
-    print(123)
 
     # -----------------------------------
     # 3. Compute centralities

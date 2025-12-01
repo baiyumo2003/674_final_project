@@ -82,18 +82,11 @@ if __name__ == "__main__":
     print("Loading internal Enron email list...")
     users = load_enron_emails(EMAIL_LIST_FILE)
     print(f"Found {len(users)} internal addresses.")
-
-    # -----------------------------
-    # Step 1: Build directional matrix
-    # -----------------------------
     matrix, index = build_email_matrix(users)
 
     np.save(os.path.join(RESULT_DIR, "email_matrix.npy"), matrix)
     print("Saved directional email_matrix.npy")
 
-    # -----------------------------
-    # Step 2: Build symmetric network matrix
-    # -----------------------------
     network_matrix = build_symmetric_network_matrix(matrix)
 
     np.save(os.path.join(RESULT_DIR, "network_email_communication.npy"), network_matrix)
