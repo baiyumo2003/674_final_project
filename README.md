@@ -145,6 +145,22 @@ bash run_llm_pipeline.sh
 * `results/LLM/enron_roles_qwen.csv`
 * `results/figures/role_distribution.png`
 
+### GPU Requirements
+
+This configuration was tested on **4 × NVIDIA A6000 GPUs**.
+
+If you are using **smaller or fewer GPUs**, you may need to:
+
+- **Lower the batch size**
+  (Modify `src/classify_roles_qwen.py` to reduce batch size)
+
+- **Switch to a smaller model**  
+
+- **Enable model/activation offloading** if supported
+
+- **Use FP16, BF16, or quantized weights** (e.g., 4-bit or 8-bit) to reduce memory use.
+
+
 ---
 
 
